@@ -93,8 +93,11 @@ class AccountKit extends React.Component {
     const disabled = !this.state.initialized || this.props.disabled;
     // @ts-ignore
     return this.props.children({
-      onClick: () => {
-        this.signIn();
+      onClick: async () => {
+        if (this.props.optionalFunc) {
+          await this.props.optionalFunc();
+        }
+        await this.signIn();
       },
       disabled,
     });
@@ -116,6 +119,7 @@ AccountKit.propTypes = {
   countryCode: PropTypes.string,
   phoneNumber: PropTypes.string,
   emailAddress: PropTypes.string,
+  optionalFunc: PropTypes.func,
 };
 
 AccountKit.defaultProps = {
